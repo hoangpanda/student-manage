@@ -115,7 +115,7 @@ public:
       out << code << ' ' << name << ' ' << age << ' ' << point << endl;
     }
     out.close();
-  }
+  } // xuất danh sách ra file txt
 
   int find_max_by_student_code() {
     int max_v = -1;
@@ -197,7 +197,7 @@ public:
       int code, max_point = find_max_by_student_point();
       cout << code << ' ' << max_point << endl;
     }
-  }
+  } // tìm max
 
   int find_min_by_student_code() {
     int max_v = 99999;
@@ -279,7 +279,7 @@ public:
       int code, max_point = find_min_by_student_point();
       cout << code << ' ' << max_point << endl;
     }
-  }
+  } // tìm min 
 
 
   void find_by_code(int code) {
@@ -362,7 +362,7 @@ public:
       float point; cin >> point;
       find_by_point(point);
     }
-  }
+  } // tìm kiếm 
 };
 
 class app {
@@ -375,8 +375,9 @@ class app {
 public:
   void run() {
     // load dữ liệu từ database cho trước
+    
   }
-}
+};
 
 int main() {
 

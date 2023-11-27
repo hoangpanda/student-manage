@@ -282,14 +282,136 @@ public:
     }
   }
 
+  void input_item() {
+    cout << "enter the number of item" << endl;
+    int num_item; cin >> num_item;
+    string code_item, name_item, name_nsx;
+    for(int i = 0; i < num_item; ++i) {
+      cin >> code_item >> name_item >> name_nsx;
+      cout << code_item << ' ' << name_item << ' ' << name_nsx << endl;
+      item item_u(code_item, name_item, name_nsx);
+      item_list.push(item_u);
+    }
+  }
+
+  void export_item() {
+    
+  }
+
+  void input_export() {
+    cout << "choose option" << endl;
+    cout << "1. input item" << endl;
+    cout << "2. export item" << endl; 
+    int option; cin >> option;
+    cout << "you choose: " << option << endl; 
+    if(option == 1) {
+      input_item();
+    }
+    else {
+      export_item();
+    }
+  }
+
+  void display_per_item(item item_t) {
+    string code_item = item_t.get_code_item();
+    string name_item = item_t.get_name_item();
+    string name_nsx = item_t.get_name_nsx();
+    cout << code_item << ' ' << name_item << ' ' << name_nsx << endl;
+  }
+
+  void display_all_item() {
+    for(int i = 0; i < item_list.size(); ++i) {
+      display_per_item(item_list.get(i));
+    }
+  }
+
+  void statistic_num_item() {
+    vectorClass<string> item_unique;
+    for(int i = 0; i < item_list.size(); ++i) {
+      item item_t = item_list.get(i);
+      auto name_item = item_t.get_name_item();
+      if(item_unique.size() == 0) {
+        item_unique.push(name_item);
+      }
+      else {
+        for(int j = 0; j < item_unique.size(); ++j) {
+          if(item_unique.get(j) == name_item) {
+            break;
+          }
+          else {
+            item_unique.push(name_item);
+          }
+        }
+      }
+    }
+
+    for(int j = 0; j < item_unique.size(); ++j) {
+      string name = item_unique.get(j);
+      int cnt = 0;
+      for(int i = 0; i < item_list.size(); ++i) {
+        item item_t = item_list.get(i);
+        auto name_item = item_t.get_name_item();
+        if(name == name_item) cnt++;
+      }
+      cout << name << ": " << cnt << endl;
+    }
+
+
+
+  }
+
 };
 
 
 int main() {
 
   store store_manager;
-  store_manager.read_data();
-  store_manager.export_data();
+  // store_manager.read_data(); // đọc thông tin quản lý của store từ file -> program
+  // store_manager.export_data(); // ghi thông tin quản lý của store vào file
+  // store_manager.display_all_item(); // hiển thị toàn bộ danh sách mặt hàng hiện có 
+  // store_manager.input_export(); // nhập xuất các mặt hàng
+  // store_manager.statistic_num_item(); // thống kê số lượng mặt hàng tồn của mỗi cửa hàng
+
+  // cout << "choose option:" << endl;
+  // cout << "1. read management information of store from file to program" << endl;
+  // cout << "2. export management information of store to file" << endl;
+  // cout << "3. show the entire list of available items" << endl;
+  // cout << "4. input and export item" << endl;
+  // cout << "5. statistics on the number of items in stock for store" << endl;
+
+  // int option; cin >> option;
+
+  while(true) {
+    cout << "choose option:" << endl;
+    cout << "1. read management information of store from file to program" << endl;
+    cout << "2. export management information of store to file" << endl;
+    cout << "3. show the entire list of available items" << endl;
+    cout << "4. input and export item" << endl;
+    cout << "5. statistics on the number of items in stock for store" << endl;
+    cout << "6. exit" << endl;
+    int option; cin >> option;
+    cout << "you choose option: " << option << endl;
+
+    if(option == 1) {
+      store_manager.read_data();
+    }
+    else if(option == 2) {
+      store_manager.export_data();
+    }
+    else if(option == 3) {
+      store_manager.display_all_item();
+    }
+    else if(option == 4) {
+      store_manager.input_export();
+    }
+    else if(option == 5) {
+      store_manager.statistic_num_item();
+    }
+    else if(option == 6) {
+      break;
+    }
+  }
+
 
   return 0;
 }
