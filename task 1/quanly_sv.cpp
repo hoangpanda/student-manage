@@ -3,6 +3,8 @@
 #include <list>
 #include <string>
 #include <fstream>
+#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 // quan ly sinh vien 
@@ -39,13 +41,37 @@ public:
 
 };
 
+
+
+
+template<typename a, typename b>
+bool operator < (a& student_1, b& student_2) {
+  // return true;
+  float point_1 = student_1.get_student_point();
+  float point_2 = student_2.get_student_point();
+  return point_1 <= point_2;
+}
+
+
+
 class student_list {
 public:
   vector<student> student_even;
   list<student> student_odd;
 
   void load_data_from_database() {
-    
+    string path = "input.txt";
+    ifstream file(path);
+    if(file.is_open()) {
+      while(!file.eof()) {
+        int code, age;
+        string name;
+        float point;
+        file >> code >> name >> age >> point;
+        student student_infor(code, name, age, point);
+        add_student_infor(student_infor);
+      }
+    } 
   }
 
   void add_student_infor(student student_infor) {
@@ -77,7 +103,8 @@ public:
       string name;
       float point;
       cin >> code;
-      getline(cin, name);
+      // getline(cin, name);
+      cin >> name;
       cin >> age >> point;
       student student_infor(code, name, age, point);
       add_student_infor(student_infor);      
@@ -286,11 +313,13 @@ public:
     for(auto student_entity: student_odd) {
       if(code == student_entity.get_student_code()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     for(auto student_entity: student_even) {
       if(code == student_entity.get_student_code()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     cout << "not find that" << endl;
@@ -300,11 +329,13 @@ public:
     for(auto student_entity: student_odd) {
       if(name == student_entity.get_student_name()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     for(auto student_entity: student_even) {
       if(name == student_entity.get_student_name()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     cout << "not find that" << endl;
@@ -314,11 +345,13 @@ public:
     for(auto student_entity: student_odd) {
       if(age == student_entity.get_student_age()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     for(auto student_entity: student_even) {
       if(age == student_entity.get_student_age()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     cout << "not find that" << endl;
@@ -328,11 +361,13 @@ public:
     for(auto student_entity: student_odd) {
       if(point == student_entity.get_student_point()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     for(auto student_entity: student_even) {
       if(point == student_entity.get_student_point()) {
         print_infor_one_user(student_entity);
+        return;
       }
     }
     cout << "not find that" << endl;
@@ -363,6 +398,30 @@ public:
       find_by_point(point);
     }
   } // tìm kiếm 
+
+
+  void sort_student() {
+    /*
+    vector<student> student_even;
+    list<student> student_odd;
+     */
+    cout << "choose option" << endl;
+    cout << "1. sorted by odd student code" << endl;
+    cout << "2. sorted by even student code" << endl;
+    int option; cin >> option;
+    cout << "you choose option: " << option << endl;
+
+
+    if(option == 1) {
+        // sort(student_even.begin(), student_even.end());
+      student_odd.sort();
+      cout << "sort complete" << endl;
+    }
+    else {
+      student_odd.sort();
+      cout << "sort complete" << endl;
+    }
+  }
 };
 
 class app {
@@ -374,14 +433,61 @@ class app {
   */
 public:
   void run() {
-    // load dữ liệu từ database cho trước
-    
-  }
+      /* 
+      nhập danh sách - option 1: function get_input_from_user();
+      xuất danh sách ra file txt - option 2: function export_all_data_from_database();
+      sắp xếp danh sách - option 3: function sort_student();
+      tìm max theo 1 trường dữ liệu - option 4: function find_max()
+      tìm min theo 1 trường dữ liệu - option 5: function find_min()
+      tìm 1 student cụ thể theo 1 trường - option 6: function find()
+      thoát chương trình - option 7: break
+      */
+      student_list student_manage_entity;
+      student_manage_entity.load_data_from_database(); // load data from database
+
+      // create menu
+      while(true) {
+        cout << "choose option" << endl;
+        cout << "1. input list" << endl;
+        cout << "2. output list" << endl;
+        cout << "3. sort list" << endl;
+        cout << "4. find max" << endl;
+        cout << "5. find min" << endl;
+        cout << "6. find" << endl;
+        cout << "7. exit" << endl;
+        int option; cin >> option;
+        cout << "you choose: " << option << endl;
+
+        if(option==1) {
+          student_manage_entity.get_input_from_user();
+        } 
+        else if(option==2) {
+          student_manage_entity.export_all_data_from_database();
+        }
+        else if(option == 3) {
+          student_manage_entity.sort_student();
+        }
+        else if(option==4) {
+          student_manage_entity.find_max();
+        }
+        else if(option==5) {
+          student_manage_entity.find_min();
+        }
+        else if(option == 6) {
+          student_manage_entity.find();
+        }
+        else {
+          // option == 7
+          cout << "exit from the app" << endl;
+          break;
+        }
+      }
+
+    }
 };
 
-int main() {
 
-  freopen("input.txt", "r", stdin);
+int main() {
   app quanly_sinhvien;
   quanly_sinhvien.run();
 }
